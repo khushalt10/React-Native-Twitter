@@ -2,7 +2,8 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        marginHorizontal: 10
     },
     tweetHeaderContainer: {
         flexDirection: 'row',
@@ -13,19 +14,29 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     name: {
-        marginHorizontal: 5,
+        marginRight: 5,
         fontWeight: "bold"
     },
     username: {
-        marginHorizontal: 5,
+        marginRight: 5,
         color: 'gray'
     },
     createdAt: {
-        marginHorizontal: 5,
+        marginRight: 5,
         color: 'gray'
     },
-    moreIcon: {
-       
+    content: {
+        marginTop: 5,
+        lineHeight: 18,
+    },
+    imag: {
+        width: '100%',
+        height: 200,
+        resizeMode: 'cover',
+        borderRadius: 15,
+        overflow: 'hidden',
+        marginVertical: 10,
+
     }
 })
 

@@ -2,7 +2,9 @@ import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 import { Image, Text, View } from 'react-native';
 import { TweetType } from '../../../types';
+import Footer from '../Footer';
 import styles from './styles';
+import moment from 'moment'
 
 export type MainContainerProps= {
     tweet: TweetType
@@ -14,15 +16,15 @@ const MainContainer = ({ tweet }: MainContainerProps) => (
             <View style={styles.tweetHeaderNames}>
             <Text style={styles.name}>{tweet.user.name}</Text>
             <Text style={styles.username}>@{tweet.user.username}</Text>
-            <Text style={styles.createdAt}>15s</Text>
+            <Text style={styles.createdAt}>{moment(tweet.createdAt).fromNow()}</Text>
             </View>
-            <Ionicons name={"chevron-down"} size={16} color={'gray'} style={styles.moreIcon} />
+            <Ionicons name={"chevron-down"} size={16} color={'gray'} />
         </View>
         <View>
-            <Text>{tweet.content}</Text>
-            {!!tweet.image && <Image source={{ uri: tweet.image }} />}
+            <Text style={styles.content}>{tweet.content}</Text>
+            {!!tweet.image && <Image style={styles.imag} source={{ uri: tweet.image }} />}
         </View>
-    
+        <Footer tweet={tweet} />
     </View>
 )
 
