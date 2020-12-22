@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "twitterappec8e7899": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
