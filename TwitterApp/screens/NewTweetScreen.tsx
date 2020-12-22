@@ -12,13 +12,14 @@ import Colors from '../constants/Colors';
 import tweets from '../data/tweets';
 
 export default function NewTweetScreen() {
+  const [tweet, setTweet] = React.useState("")
+  const [imageUrl, setImageUrl] = React.useState("")
+  
     const onPostTweet = () => {
         console.log("tweet ", tweet)
         console.log("Image ", imageUrl)
     }
 
-    const [tweet, setTweet] = React.useState("")
-    const [imageUrl, setImageUrl] = React.useState("")
 
   return (
     
@@ -32,8 +33,8 @@ export default function NewTweetScreen() {
       <View style={styles.newTweetContainer}>
         <ProfilePicture image={'https://avatars0.githubusercontent.com/u/62281618?s=460&u=4f420b0715e5446afeeb70f29047d25c0575ca30&v=4'} />
         <View style={styles.inputContainer}>
-        <TextInput value={tweet} onChange={(e) => setTweet(e.target.value)} multiline numberOfLines={3} placeholder={"What's happening?"} style={styles.tweetInput} />
-        <TextInput value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder={"Image url (optional)"} style={styles.imageInput} />
+        <TextInput value={tweet} onChangeText={(value) => setTweet(value)} multiline numberOfLines={3} placeholder={"What's happening?"} style={styles.tweetInput} />
+        <TextInput value={imageUrl} onChangeText={(value) => setImageUrl(value)} placeholder={"Image url (optional)"} style={styles.imageInput} />
         </View>
       </View>
     </SafeAreaView>
@@ -65,10 +66,12 @@ const styles = StyleSheet.create({
   },
   newTweetContainer: {
     flexDirection: 'row',
-    padding: 15
+    padding: 15,
+    marginTop: 20
   },
   inputContainer: {
     marginLeft: 10,
+    marginTop: -35
   },
   tweetInput: {
     maxHeight: 300,
@@ -76,6 +79,6 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   imageInput: {
-    fontSize: 20
+    fontSize: 15
   }
 });
