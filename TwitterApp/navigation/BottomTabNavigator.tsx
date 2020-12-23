@@ -1,10 +1,12 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
 import * as React from 'react';
 import ProfilePicture from '../components/ProfilePicture';
 
 import Colors from '../constants/Colors';
+import { getUser } from '../graphql/queries';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
@@ -63,6 +65,26 @@ function TabBarIcon(props: { name: string; color: string }) {
 const HomeStack = createStackNavigator<HomeParamList>();
 
 function HomeNavigator() {
+
+  const [user,setUser] = React.useState(null)
+  React.useEffect(() => {
+    const fetchUser = async() => {
+      const userInfo = await Auth.currentAuthenticatedUser({ bypassCache: true })
+      if(!userInfo) {
+        return;
+      }
+      try {
+        const userData = await API.graphql(graphqlOperation(getUser, { id: userInfo.attributes.sub }))
+        if(userData) {
+          setUser(userData.data.getUser)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchUser()
+  },[])
+
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -85,7 +107,7 @@ function HomeNavigator() {
           <MaterialCommunityIcons name={"star-four-points-outline"} size={30} color={Colors.light.tint} />
         ),
         headerLeft: () => (
-          <ProfilePicture size={40} image={'https://avatars0.githubusercontent.com/u/62281618?s=460&u=4f420b0715e5446afeeb70f29047d25c0575ca30&v=4'} />
+          <ProfilePicture size={40} image={user ? user?.image : 'https://avatars0.githubusercontent.com/u/62281618?s=460&u=4f420b0715e5446afeeb70f29047d25c0575ca30&v=4'} />
         )
       }}
       />
