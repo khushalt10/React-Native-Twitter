@@ -1,4 +1,6 @@
 import { EvilIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
 import * as React from 'react';
 import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,14 +12,27 @@ import { Text, View } from '../components/Themed';
 import Tweet from '../components/Tweet';
 import Colors from '../constants/Colors';
 import tweets from '../data/tweets';
+import { createTweet } from '../graphql/mutations';
 
 export default function NewTweetScreen() {
   const [tweet, setTweet] = React.useState("")
   const [imageUrl, setImageUrl] = React.useState("")
   
-    const onPostTweet = () => {
-        console.log("tweet ", tweet)
-        console.log("Image ", imageUrl)
+  const navigation = useNavigation()
+    const onPostTweet = async () => {
+        try {
+          const currentUser = await Auth.currentAuthenticatedUser({ bypassCache: true })
+
+          const newTweet = {
+            content: tweet,
+            image: imageUrl,
+            userID: currentUser.attributes.sub
+          }
+          await API.graphql(graphqlOperation(createTweet, { input: newTweet }))
+          navigation.goBack()
+        } catch (error) {
+          console.log(error)
+        }
     }
 
 
@@ -25,7 +40,9 @@ export default function NewTweetScreen() {
     
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <EvilIcons name="close" size={30} color={Colors.light.tint} />
+        </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={onPostTweet} >
               <Text style={styles.buttonText}>Tweet</Text>
           </TouchableOpacity>
