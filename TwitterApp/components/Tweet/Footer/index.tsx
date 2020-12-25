@@ -6,7 +6,6 @@ import { createLike, deleteLike } from '../../../graphql/mutations';
 import { TweetType } from '../../../types';
 import styles from './styles';
 
-
 export type FooterProps= {
     tweet: TweetType
 }
