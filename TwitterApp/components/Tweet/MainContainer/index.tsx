@@ -5,6 +5,7 @@ import { TweetType } from '../../../types';
 import Footer from '../Footer';
 import styles from './styles';
 import moment from 'moment'
+import { S3Image } from 'aws-amplify-react-native'
 
 export type MainContainerProps= {
     tweet: TweetType
@@ -22,7 +23,7 @@ const MainContainer = ({ tweet }: MainContainerProps) => (
         </View>
         <View>
             <Text style={styles.content}>{tweet.content}</Text>
-            {!!tweet.image && <Image style={styles.imag} source={{ uri: tweet.image }} />}
+            {!!tweet.image && <S3Image style={styles.imag} imgKey={tweet.image } />}
         </View>
         <Footer tweet={tweet} />
     </View>
