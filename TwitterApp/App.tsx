@@ -12,7 +12,7 @@ import { getUser } from './graphql/queries';
 import { createUser } from './graphql/mutations';
 
 Amplify.configure(config)
-
+//https://expo.io/@khushalt10/TwitterApp
 function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();

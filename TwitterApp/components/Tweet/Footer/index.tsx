@@ -10,6 +10,7 @@ export type FooterProps= {
     tweet: TweetType
 }
 
+
 const Footer = ({ tweet }: FooterProps) => {
     
     const [user, setUser] = React.useState(null)
